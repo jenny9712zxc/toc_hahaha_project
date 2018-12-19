@@ -80,7 +80,7 @@ class TocMachine(GraphMachine):
         print('CURRENT STATE: ' + machine.state)
         self.go_back()
 
-    def on_exit_state6(self,event):
+    def on_exit_state6(self):
         print('Leaving state6')
 
 
@@ -149,12 +149,12 @@ machine = TocMachine(
         {
             'trigger': 'advance',
             'source': [
-                'state1',
-                'state2',
-                'state3',
+#                'state1',
+#                'state2',
+#                'state3',
                 'state4',
-                'state5',
-                'state6'
+                'state5'#,
+                #'state6'
             ],
             'dest': 'user',
             'conditions': 'is_going_to_go_back'
@@ -165,14 +165,29 @@ machine = TocMachine(
     show_conditions=True,
 )
 
+event=['go to state1', 'go to state2', 'go to state3', 'go to state4', 'go to state5', 'go to state6', 'go back']
 
 if __name__ == "__main__":
     machine.get_graph().draw('fsm.png', prog='dot', format='png')
     while True:
-        text = input('input: ')
-        print('---')
-        print('LAST STATE: ' + machine.state)        
+        print(len(event))
+        for i in range(len(event)):
+            print(event[i])
 
-        machine.advance(text)
-        print('FINAL STATE: ' + machine.state)
-        print('---')
+        text = input('input: ')
+        
+        for i in range(len(event)):
+            if text.lower() == event[i]:
+                print('---')
+                print('LAST STATE: ' + machine.state)        
+
+                machine.advance(text)
+                print('FINAL STATE: ' + machine.state)
+                print('---')
+                break
+            if i==7:
+                print('no match event\nplease input again')
+
+
+        
+

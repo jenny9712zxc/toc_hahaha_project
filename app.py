@@ -8,6 +8,8 @@ import json
 VERIFY_TOKEN = "123456"
 
 
+event=['go to state1', 'go to state2', 'go to state3', 'go to state4', 'go to state5', 'go to state6', 'go back']
+
 @route("/webhook", method="GET")
 def setup_webhook():
     mode = request.GET.get("hub.mode")

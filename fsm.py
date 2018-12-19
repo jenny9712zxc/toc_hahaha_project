@@ -46,7 +46,7 @@ class TocMachine(GraphMachine):
             return text.lower() == 'go to state6'
         return False
 
-    def is_going_to_go_back(self, text):
+    def is_going_to_go_back(self, event):
         if event.get("message"):
             text = event['message']['text']
             return text.lower() == 'go back' 
@@ -90,8 +90,10 @@ class TocMachine(GraphMachine):
         send_text_message(sender_id, "I'm entering state4")
         #self.go_back()
 
-    def on_exit_state4(self):
+    def on_exit_state4(self, event):
         print('Leaving state4')
+        sender_id = event['sender']['id']
+        send_text_message(sender_id, "Leaving state4")
 
     def on_enter_state5(self, event):
         print("I'm entering state5")
@@ -100,8 +102,10 @@ class TocMachine(GraphMachine):
         send_text_message(sender_id, "I'm entering state5")
         #self.go_back()
 
-    def on_exit_state5(self):
+    def on_exit_state5(self, event):
         print('Leaving state5')
+        sender_id = event['sender']['id']
+        send_text_message(sender_id, "Leaving state5")
 
     def on_enter_state6(self, event):
         print("I'm entering state6")
@@ -177,12 +181,12 @@ machine = TocMachine(
         {
             'trigger': 'advance',
             'source': [
-                'state1',
-                'state2',
-                'state3',
+#                'state1',
+#                'state2',
+#                'state3',
                 'state4',
-                'state5',
-                'state6'
+                'state5'#,
+#                'state6'
             ],
             'dest': 'user',
             'conditions': 'is_going_to_go_back'
